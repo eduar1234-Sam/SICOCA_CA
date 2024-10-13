@@ -7,7 +7,7 @@
           <div class="card-body">
             <h5 class="card-title">Punto de Venta</h5>
             <p class="card-text">Accede al sistema de ventas.</p>
-            <button (click)="toggleMenu()" class="btn btn-primary">Entrar</button>
+            <button (click)="toggleMenu('sale')" class="btn btn-primary">Entrar</button>
           </div>
         </div>
       </div>
@@ -18,7 +18,7 @@
           <div class="card-body">
             <h5 class="card-title">Contabilidad</h5>
             <p class="card-text">Gestión de contabilidad.</p>
-            <button (click)="toggleMenu()" class="btn btn-primary">Entrar</button>
+            <button (click)="toggleMenu('account')" class="btn btn-primary">Entrar</button>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
           <div class="card-body">
             <h5 class="card-title">Reportes</h5>
             <p class="card-text">Genera reportes de ventas y más.</p>
-            <button (click)="toggleMenu()" class="btn btn-primary">Entrar</button>
+            <button (click)="toggleMenu('reports')" class="btn btn-primary">Entrar</button>
           </div>
         </div>
       </div>
@@ -40,14 +40,15 @@
           <div class="card-body">
             <h5 class="card-title">Inventario</h5>
             <p class="card-text">Control del inventario.</p>
-            <button (click)="toggleMenu()" class="btn btn-primary">Entrar</button>
+            <button (click)="toggleMenu('invent')" class="btn btn-primary">Entrar</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="menuPrincipal">
+  <div *ngIf="menuPrincipal" class="container">
     <button type="button" class="btn btn-secondary" (click)="toggleMenu()">Atrás</button>
+    <app-modules [opc]="opc"></app-modules>
   </div>
   
