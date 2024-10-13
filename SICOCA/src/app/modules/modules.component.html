@@ -1,0 +1,14 @@
+<div class="container">
+    <div *ngIf="opc=='sale'">
+        <app-sale-point></app-sale-point>
+    </div>
+    <div *ngIf="opc=='account'">
+        <app-accounting></app-accounting>
+    </div>
+    <div *ngIf="opc=='reports'">
+        <app-reports></app-reports>
+    </div>
+    <div *ngIf="opc=='invent'">
+        <app-inventory></app-inventory>
+    </div>
+</div>
