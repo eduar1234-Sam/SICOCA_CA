@@ -1,0 +1,53 @@
+<app-nav-bar></app-nav-bar>
+<div class="container mt-4" *ngIf="!menuPrincipal">
+    <div class="row">
+      <!-- Tarjeta: Punto de Venta -->
+      <div class="col-md-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Punto de Venta</h5>
+            <p class="card-text">Accede al sistema de ventas.</p>
+            <button (click)="toggleMenu()" class="btn btn-primary">Entrar</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Tarjeta: Contabilidad -->
+      <div class="col-md-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Contabilidad</h5>
+            <p class="card-text">Gestión de contabilidad.</p>
+            <button (click)="toggleMenu()" class="btn btn-primary">Entrar</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Tarjeta: Reportes -->
+      <div class="col-md-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Reportes</h5>
+            <p class="card-text">Genera reportes de ventas y más.</p>
+            <button (click)="toggleMenu()" class="btn btn-primary">Entrar</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Tarjeta: Inventario -->
+      <div class="col-md-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Inventario</h5>
+            <p class="card-text">Control del inventario.</p>
+            <button (click)="toggleMenu()" class="btn btn-primary">Entrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="menuPrincipal">
+    <button type="button" class="btn btn-secondary" (click)="toggleMenu()">Atrás</button>
+  </div>
+  
