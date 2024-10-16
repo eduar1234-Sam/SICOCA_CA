@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-stores',
@@ -10,6 +11,9 @@ import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsMod
     styleUrls: ['./stores.component.css']
 })
 export class StoresComponent implements OnInit {
+
+    constructor(private router: Router) {}
+
     @Input() store: any;
 
     products: any[] = [
@@ -94,5 +98,9 @@ export class StoresComponent implements OnInit {
 
     updateSubtotal(): void {
         this.subtotal = this.preSaleItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+    }
+
+    goToPayments(){
+        this.router.navigate(['/payments']);
     }
 }
