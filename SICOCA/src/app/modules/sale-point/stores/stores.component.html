@@ -1,0 +1,48 @@
+<div class="container">
+    <h2 class="text-center">Tienda: {{store.name}}</h2>
+    <p class="text-center">Bienvenido Eduardo Gamboa</p>
+  
+    <div class="mb-3">
+        <label for="productSelect" class="form-label">Selecciona un producto</label>
+        <select id="productSelect" class="form-select" (change)="onProductSelect($event)">
+            <option *ngFor="let product of productsSelected" [value]="product.id">{{product.name}}</option>
+        </select>
+    </div>
+  
+    <div class="mb-3">
+        <label for="quantityInput" class="form-label">Cantidad</label>
+        <input type="number" id="quantityInput" class="form-control" [(ngModel)]="selectedQuantity" placeholder="Cantidad" />
+    </div>
+  
+    <button class="btn btn-primary" (click)="addToPreSale()">Agregar a preventa</button>
+  
+    <h3 class="mt-4">Preventa</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Stock</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal por Producto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of preSaleItems">
+                <td>{{item.product.name}}</td>
+                <td>
+                    <input type="number" [(ngModel)]="item.quantity" (change)="updateSubtotal()" />
+                </td>
+                <td>{{item.product.stock}}</td>
+                <td>{{item.product.price | currency:'CRC':'symbol'}}</td>
+                <td>{{ item.product.price * item.quantity | currency:'CRC':'symbol' }}</td>
+                <td>
+                    <button class="btn btn-danger" (click)="removeFromPreSale(item)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h4>Subtotal Total: {{ subtotal | currency:'CRC':'symbol' }}</h4>
+</div>

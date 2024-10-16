@@ -1,1 +1,15 @@
-<p>sale-point works!</p>
+<div class="container mt-4" *ngIf="!showStore">
+    <div class="list-group">
+      <a 
+        *ngFor="let store of stores" 
+        class="list-group-item list-group-item-action"
+        (click)="onSelectStore(store)"
+      >
+        {{ store.name }}
+      </a>
+    </div>
+</div>
+
+<div class="container mt-4" *ngIf="showStore">
+    <app-stores [store]="storeSelected"></app-stores>
+</div>
