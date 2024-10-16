@@ -35,8 +35,8 @@
                     <input type="number" [(ngModel)]="item.quantity" (change)="updateSubtotal()" />
                 </td>
                 <td>{{item.product.stock}}</td>
-                <td>{{item.product.price | currency:'CRC':'symbol'}}</td>
-                <td>{{ item.product.price * item.quantity | currency:'CRC':'symbol' }}</td>
+                <td>{{item.product.price | currency:'₡':'symbol'}}</td>
+                <td>{{ item.product.price * item.quantity | currency:'₡':'symbol' }}</td>
                 <td>
                     <button class="btn btn-danger" (click)="removeFromPreSale(item)">Eliminar</button>
                 </td>
@@ -44,5 +44,5 @@
         </tbody>
     </table>
     
-    <h4>Subtotal Total: {{ subtotal | currency:'CRC':'symbol' }}</h4>
+    <h4>Subtotal Total: {{ subtotal | currency:'₡':'symbol' }}</h4>
 </div>
