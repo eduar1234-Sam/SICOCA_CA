@@ -57,10 +57,10 @@ export class StoresComponent implements OnInit {
     }
 
     onProductSelect(event: Event): void {
-        const selectElement = event.target as HTMLSelectElement;
-        this.selectedProductId = selectElement.value;
+      const selectElement = event.target as HTMLSelectElement;
+      this.selectedProductId = selectElement.value ? selectElement.value : null; // Verifica que haya selección
     }
-
+  
     addToPreSale(): void {
         if (this.selectedProductId && this.selectedQuantity > 0) {
             const product = this.productsSelected.find(prod => prod.id === this.selectedProductId);
