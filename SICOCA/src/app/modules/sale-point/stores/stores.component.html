@@ -1,13 +1,15 @@
 <div class="container">
     <h2 class="text-center">Tienda: {{store.name}}</h2>
-    <p class="text-center">Bienvenido Eduardo Gamboa</p>
+    <p class="text-center">Bienvenido Usuario Apellido</p>
   
     <div class="mb-3">
         <label for="productSelect" class="form-label">Selecciona un producto</label>
         <select id="productSelect" class="form-select" (change)="onProductSelect($event)">
+            <option value="" disabled selected>Seleccione una opción</option> <!-- Opción predeterminada -->
             <option *ngFor="let product of productsSelected" [value]="product.id">{{product.name}}</option>
         </select>
     </div>
+    
   
     <div class="mb-3">
         <label for="quantityInput" class="form-label">Cantidad</label>
