@@ -18,6 +18,8 @@ export class PaymentsComponent {
   paymentMethods: string[] = [];
   amounts: { [key: string]: number } = {}; // Solo acepta número
   efectivoRecibido: number = 0; // Campo para el efectivo recibido
+  errorMessage: string = ''; // Mensaje de error
+  showSummary: boolean = false; // Estado para mostrar las secciones de métodos de pago
 
   onInputChange() {
     const inputValue = this.name.toLowerCase();
@@ -43,11 +45,31 @@ export class PaymentsComponent {
     }
   }
 
-  removePaymentMethod(method: string) {
-    const index = this.paymentMethods.indexOf(method);
-    if (index !== -1) {
-      this.paymentMethods.splice(index, 1);
-      delete this.amounts[method]; // Elimina el monto correspondiente
+  validateFields(): boolean {
+    this.errorMessage = '';
+    if (this.paymentMethods.length === 0) {
+      this.errorMessage = 'Por favor, añade al menos un método de pago.';
+      return false;
     }
+    
+    for (let method of this.paymentMethods) {
+      if (this.amounts[method] == null || this.amounts[method] <= 0) {
+        this.errorMessage = 'Por favor, completa todos los campos de monto.';
+        return false;
+      }
+    }
+    
+    return true;
+  }
+
+  proceedToSummary() {
+    if (this.validateFields()) {
+      this.showSummary = true; // Cambia el estado para mostrar el resumen
+    }
+  }
+
+  removePaymentMethod(method: string) {
+    this.paymentMethods = this.paymentMethods.filter(m => m !== method);
+    delete this.amounts[method]; // Elimina el monto correspondiente
   }
 }

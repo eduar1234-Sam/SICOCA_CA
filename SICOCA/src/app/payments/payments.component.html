@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="!showSummary">
     <h1 class="title text-center">Proceder al Pago</h1>
     <div class="container">
         <div class="mb-3">
@@ -24,18 +24,34 @@
             <button (click)="addPaymentMethod()" class="btn btn-primary mt-2">+</button>
         </div>
 
-        <div *ngFor="let method of paymentMethods">
+        <div *ngFor="let method of paymentMethods" class="mb-3">
             <label>{{ method }}</label>
-            <!-- Solo muestra el textbox si hay 2 o más métodos seleccionados -->
             <input *ngIf="paymentMethods.length > 1" 
                    type="number" 
                    class="form-control" 
                    [(ngModel)]="amounts[method]" 
                    placeholder="Monto" />
-            <button (click)="removePaymentMethod(method)" class="btn btn-danger mt-2">Eliminar</button> <!-- Botón de eliminar -->
+            <button (click)="removePaymentMethod(method)" class="btn btn-danger mt-1">Eliminar</button>
         </div>
 
         <h3 class="text-end fw-bold">Total: 5000₡</h3> <!-- Total estático -->
-        <button class="btn btn-success mt-3 float-end">Siguiente</button> <!-- Botón de siguiente -->
+        <div class="text-danger">{{ errorMessage }}</div> <!-- Mensaje de error -->
+        <button (click)="proceedToSummary()" class="btn btn-success mt-3 float-end">Siguiente</button>
+    </div>
+</div>
+
+<!-- Secciones de resumen -->
+<div class="container" *ngIf="showSummary">
+    <h1 class="title text-center">Resumen de Métodos de Pago</h1>
+    <div class="row">
+        <div class="col">
+            <h3 *ngIf="paymentMethods[0]">{{ paymentMethods[0] }}</h3>
+        </div>
+        <div class="col">
+            <h3 *ngIf="paymentMethods[1]">{{ paymentMethods[1] }}</h3>
+        </div>
+        <div class="col">
+            <h3 *ngIf="paymentMethods[2]">{{ paymentMethods[2] }}</h3>
+        </div>
     </div>
 </div>
