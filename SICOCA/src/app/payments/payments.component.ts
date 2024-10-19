@@ -13,6 +13,7 @@ export class PaymentsComponent {
   names: string[] = ['Tomas Guardias', 'Tom Cruz', 'Tec Johnson', 'Tobias Lane', 'Tori Vega', 'Tonya Harding'];
 
   name: string = '';
+  sinpeName: string = ''; // Propiedad añadida
   filteredNames: string[] = [];
   selectedMethod: string = '';
   paymentMethods: string[] = [];
@@ -84,6 +85,15 @@ export class PaymentsComponent {
   }
 
   calculateChange(): number {
-    return this.efectivoRecibido - this.totalAmount; // Calcular el cambio
+    if (this.paymentMethods.includes('Efectivo')) {
+      if (this.paymentMethods.length === 1) {
+        return this.efectivoRecibido - this.totalAmount; // Solo efectivo
+      } else {
+        // Si hay más de un método, se usa el monto en efectivo indicado
+        const efectivoAmount = this.amounts['Efectivo'] || 0;
+        return this.efectivoRecibido - efectivoAmount;
+      }
+    }
+    return 0; // Sin efectivo
   }
 }

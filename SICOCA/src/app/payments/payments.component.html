@@ -34,7 +34,7 @@
             <button (click)="removePaymentMethod(method)" class="btn btn-danger mt-1">Eliminar</button>
         </div>
 
-        <h3 class="text-end fw-bold">Total: ₡5000</h3> <!-- Total estático -->
+        <h3 class="text-end fw-bold">Total: ₡{{ totalAmount }}</h3> <!-- Total dinámico -->
         <div class="text-danger">{{ errorMessage }}</div> <!-- Mensaje de error -->
         <button (click)="proceedToSummary()" class="btn btn-success mt-3 float-end">Siguiente</button>
     </div>
@@ -47,13 +47,19 @@
         <h3 class="fw-bold">
             {{ method }}: 
             <span *ngIf="paymentMethods.length > 1">{{ amounts[method] }}</span>
-            <span *ngIf="paymentMethods.length === 1">₡5000</span> <!-- Total si es el único método -->
+            <span *ngIf="paymentMethods.length === 1">₡{{ amounts[method] || totalAmount }}</span> <!-- Total si es el único método -->
         </h3>
         <div *ngIf="method === 'Efectivo'">
             <label for="cashInput" class="form-label">Monto Pagado:</label>
             <input type="number" id="cashInput" class="form-control" [(ngModel)]="efectivoRecibido" placeholder="Cantidad con la que paga el cliente" />
             <h5 class="text-danger">Cambio: ₡{{ calculateChange() }}</h5> <!-- Cálculo del cambio -->
         </div>
-        <!-- Puedes agregar más formularios para otros métodos de pago aquí -->
+        <div *ngIf="method === 'SINPE'">
+            <label for="sinpeNameInput" class="form-label">Nombre del Emisor:</label>
+            <input id="sinpeNameInput" class="form-control" [(ngModel)]="sinpeName" placeholder="Nombre del emisor" />
+        </div>
+        <div *ngIf="method === 'Credito'">
+            <h5>{{ name }} ingresará ₡{{ amounts[method] || totalAmount }} a su cuenta de crédito.</h5>
+        </div>
     </div>
 </div>
