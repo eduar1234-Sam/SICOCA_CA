@@ -18,7 +18,6 @@ export class PaymentsComponent {
   paymentMethods: string[] = [];
   amounts: { [key: string]: number } = {}; // Solo acepta número
   efectivoRecibido: number = 0; // Campo para el efectivo recibido
-  errorMessage: string = ''; // Mensaje de error
 
   onInputChange() {
     const inputValue = this.name.toLowerCase();
@@ -44,32 +43,11 @@ export class PaymentsComponent {
     }
   }
 
-  proceed() {
-    // Validar que el nombre y los métodos de pago estén completos
-    if (!this.name) {
-      this.errorMessage = 'Por favor, ingrese su nombre.';
-      return;
+  removePaymentMethod(method: string) {
+    const index = this.paymentMethods.indexOf(method);
+    if (index !== -1) {
+      this.paymentMethods.splice(index, 1);
+      delete this.amounts[method]; // Elimina el monto correspondiente
     }
-
-    if (this.paymentMethods.length === 0) {
-      this.errorMessage = 'Por favor, seleccione al menos un método de pago.';
-      return;
-    }
-
-    // Si hay 2 o más métodos, verificar que cada monto esté completado
-    if (this.paymentMethods.length > 1) {
-      for (let method of this.paymentMethods) {
-        if (this.amounts[method] == null || this.amounts[method] <= 0) {
-          this.errorMessage = `Por favor, ingrese el monto para el método ${method}.`;
-          return;
-        }
-      }
-    }
-
-    // Si todo está correcto, limpiar el mensaje de error
-    this.errorMessage = '';
-    
-    // Aquí puedes continuar con la lógica de lo que debe suceder al presionar Siguiente
-    console.log('Continuando con el pago...');
   }
 }

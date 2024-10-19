@@ -26,21 +26,16 @@
 
         <div *ngFor="let method of paymentMethods">
             <label>{{ method }}</label>
+            <!-- Solo muestra el textbox si hay 2 o más métodos seleccionados -->
             <input *ngIf="paymentMethods.length > 1" 
                    type="number" 
                    class="form-control" 
                    [(ngModel)]="amounts[method]" 
                    placeholder="Monto" />
+            <button (click)="removePaymentMethod(method)" class="btn btn-danger mt-2">Eliminar</button> <!-- Botón de eliminar -->
         </div>
 
         <h3 class="text-end fw-bold">Total: 5000₡</h3> <!-- Total estático -->
-        <div class="text-end mt-3">
-            <button class="btn btn-success" (click)="proceed()">Siguiente</button> <!-- Botón Siguiente alineado a la derecha -->
-        </div>
-        
-        <!-- Mensaje de error -->
-        <div *ngIf="errorMessage" class="text-danger mt-2">
-            {{ errorMessage }}
-        </div>
+        <button class="btn btn-success mt-3 float-end">Siguiente</button> <!-- Botón de siguiente -->
     </div>
 </div>
