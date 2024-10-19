@@ -43,15 +43,7 @@
 <!-- Secciones de resumen -->
 <div class="container" *ngIf="showSummary">
     <h1 class="title text-center">Resumen de Métodos de Pago</h1>
-    <div class="row">
-        <div class="col">
-            <h3 *ngIf="paymentMethods[0]">{{ paymentMethods[0] }}</h3>
-        </div>
-        <div class="col">
-            <h3 *ngIf="paymentMethods[1]">{{ paymentMethods[1] }}</h3>
-        </div>
-        <div class="col">
-            <h3 *ngIf="paymentMethods[2]">{{ paymentMethods[2] }}</h3>
-        </div>
+    <div class="mb-3" *ngFor="let method of paymentMethods">
+        <h3>{{ method }}</h3>
     </div>
 </div>
