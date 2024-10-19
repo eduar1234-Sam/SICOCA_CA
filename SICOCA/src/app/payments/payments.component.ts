@@ -20,7 +20,7 @@ export class PaymentsComponent {
   efectivoRecibido: number = 0; // Campo para el efectivo recibido
   errorMessage: string = ''; // Mensaje de error
   showSummary: boolean = false; // Estado para mostrar las secciones de métodos de pago
-  totalAmount: number = 5000; // Total estático (puedes modificarlo según sea necesario)
+  totalAmount: number = 5000; // Monto total de la compra
 
   onInputChange() {
     const inputValue = this.name.toLowerCase();
@@ -48,36 +48,27 @@ export class PaymentsComponent {
 
   validateFields(): boolean {
     this.errorMessage = '';
-
-    // Validar que se haya ingresado un nombre
-    if (!this.name.trim()) {
-      this.errorMessage = 'Por favor, ingresa un nombre.';
-      return false;
-    }
-
-    // Validar que se haya añadido al menos un método de pago
     if (this.paymentMethods.length === 0) {
       this.errorMessage = 'Por favor, añade al menos un método de pago.';
       return false;
     }
-    
-    // Validar montos si hay más de un método de pago
+
+    // Validación si hay más de un método de pago
     if (this.paymentMethods.length > 1) {
-      let totalEnteredAmount = 0;
+      let totalAmount = 0;
       for (let method of this.paymentMethods) {
         if (this.amounts[method] == null || this.amounts[method] <= 0) {
           this.errorMessage = 'Por favor, completa todos los campos de monto.';
           return false;
         }
-        totalEnteredAmount += this.amounts[method];
+        totalAmount += this.amounts[method]; // Sumar montos
       }
-      // Validar que la suma de montos sea igual al total
-      if (totalEnteredAmount !== this.totalAmount) {
-        this.errorMessage = `La suma de los montos debe ser igual a ₡${this.totalAmount}.`;
+      if (totalAmount !== this.totalAmount) { // Verificar si la suma es igual al total
+        this.errorMessage = 'La suma de los montos debe ser igual al total de la compra.';
         return false;
       }
     }
-    
+
     return true;
   }
 
@@ -90,5 +81,9 @@ export class PaymentsComponent {
   removePaymentMethod(method: string) {
     this.paymentMethods = this.paymentMethods.filter(m => m !== method);
     delete this.amounts[method]; // Elimina el monto correspondiente
+  }
+
+  calculateChange(): number {
+    return this.efectivoRecibido - this.totalAmount; // Calcular el cambio
   }
 }
