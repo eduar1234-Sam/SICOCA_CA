@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ClienteService } from '../cliente.service';
 
-
 @Component({
   selector: 'app-payments',
   standalone: true,
@@ -14,8 +13,7 @@ import { ClienteService } from '../cliente.service';
 })
 export class PaymentsComponent implements OnInit { // Implementar OnInit
 
-  clients: string[] = []; // Cambiado de 'names' a 'clients'
-
+  clients: { nombre_Cliente: string; [key: string]: any }[] = []; // Cambiado a un arreglo de objetos con propiedades
   products: { name: string; quantity: number; price: number }[] = [
     { name: 'Piña con hierba buena', quantity: 1, price: 1300 },
     { name: 'Fresada en leche', quantity: 2, price: 1300 },
@@ -25,7 +23,7 @@ export class PaymentsComponent implements OnInit { // Implementar OnInit
   
   name: string = '';
   sinpeName: string = ''; 
-  filteredClients: string[] = []; // Cambiado de 'filteredNames' a 'filteredClients'
+  filteredClients: { nombre_Cliente: string; [key: string]: any }[] = []; // Cambiado a un arreglo de objetos con propiedades
   selectedMethod: string = '';
   paymentMethods: string[] = [];
   amounts: { [key: string]: number } = {};
@@ -42,14 +40,11 @@ export class PaymentsComponent implements OnInit { // Implementar OnInit
   }
 
   onInputChange() {
-    const inputValue = this.name.toLowerCase();
-    if (inputValue) {
-      this.filteredClients = this.clients.filter(client => 
-        client.toLowerCase().includes(inputValue)
-      );
-    } else {
-      this.filteredClients = [];
-    }
+    const input = this.name.toLowerCase();
+    this.filteredClients = this.clients.filter(client => 
+        client.nombre_Cliente && // Asegúrate de que nombre_Cliente existe
+        client.nombre_Cliente.toLowerCase().includes(input) // Accede a nombre_Cliente
+    );
   }
 
   selectName(suggestion: string) {

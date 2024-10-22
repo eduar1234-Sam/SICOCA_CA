@@ -5,12 +5,10 @@
             <label for="nameInput" class="form-label">Nombre</label>
             <input id="nameInput" class="form-control" placeholder="Nombre" 
                 [(ngModel)]="name" (input)="onInputChange()" />
-            <!-- Cambiado filteredNames a filteredClients -->
             <ul *ngIf="filteredClients.length" class="list-group">
-                <!-- Cambiado filteredNames a filteredClients -->
-                <li *ngFor="let suggestion of filteredClients" (click)="selectName(suggestion)"
+                <li *ngFor="let client of filteredClients" (click)="selectName(client.nombre_Cliente)"
                     class="list-group-item">
-                    {{ suggestion }}
+                    {{ client.nombre_Cliente }} <!-- Acceso a nombre_Cliente -->
                 </li>
             </ul>
         </div>
