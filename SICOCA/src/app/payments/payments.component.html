@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!showSummary">
+<div class="container" *ngIf="!showSummary && !showInvoice">
     <h1 class="title text-center">Proceder al Pago</h1>
     <div class="container">
         <div class="mb-3">
@@ -41,7 +41,7 @@
 </div>
 
 <!-- Secciones de resumen -->
-<div class="container" *ngIf="showSummary">
+<div class="container" *ngIf="showSummary && !showInvoice">
     <h1 class="title text-center">Resumen de Métodos de Pago</h1>
     <div *ngFor="let method of paymentMethods">
         <h3 class="fw-bold">
@@ -62,4 +62,50 @@
             <h5>{{ name }} ingresará ₡{{ amounts[method] || totalAmount }} a su cuenta de crédito.</h5>
         </div>
     </div>
+    <button (click)="goToInvoice()" class="btn btn-success mt-3 float-end">Proceder con el Pago</button>
+</div>
+
+<!-- Invoice HTML -->
+<div class="container" *ngIf="showInvoice">
+    <h1 class="text-center">Factura</h1>
+    <h4>Nombre: {{ name }}</h4>
+    <h4>Métodos de Pago:</h4>
+    <ul class="list-group">
+        <li *ngFor="let method of paymentMethods" class="list-group-item">
+            {{ method }}: ₡{{ amounts[method] || totalAmount }}
+        </li>
+    </ul>
+    <div *ngIf="paymentMethods.includes('Efectivo')">
+        <h5>Efectivo Recibido: ₡{{ efectivoRecibido }}</h5>
+        <h5>Cambio: ₡{{ calculateChange() }}</h5>
+    </div>
+    <div *ngIf="paymentMethods.includes('SINPE')">
+        <h5>Nombre del Emisor: {{ sinpeName }}</h5>
+    </div>
+    <div *ngIf="paymentMethods.includes('Credito')">
+        <h5>{{ name }} ha ingresado ₡{{ amounts['Credito'] || totalAmount }} a su cuenta de crédito.</h5>
+    </div>
+    
+    <h4 class="mt-4">Detalles de Productos</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products">
+                <td>{{ product.name }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>₡{{ product.price }}</td>
+                <td>₡{{ product.quantity * product.price }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3 class="text-end fw-bold">Total a Pagar: ₡{{ totalAmount }}</h3>
+    <button (click)="goHome()" class="btn btn-secondary mt-3">Volver</button>
 </div>

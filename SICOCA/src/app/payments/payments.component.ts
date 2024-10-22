@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';  
 import { CommonModule } from '@angular/common';  
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-payments',
@@ -10,7 +12,19 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./payments.component.css']
 })
 export class PaymentsComponent {
+
+  constructor(private router: Router) {}
+
+
   names: string[] = ['Tomas Guardias', 'Tom Cruz', 'Tec Johnson', 'Tobias Lane', 'Tori Vega', 'Tonya Harding'];
+
+  products: { name: string; quantity: number; price: number }[] = [
+    { name: 'Piña con hierba buena', quantity: 1, price: 1300 },
+    { name: 'Fresada en leche', quantity: 2, price: 1300 },
+    { name: 'Oreo', quantity: 1, price: 1300 },
+    { name: 'BATIDO ESPECIAL', quantity: 1, price: 1300 },
+  ];
+  
 
   name: string = '';
   sinpeName: string = ''; // Propiedad añadida
@@ -22,6 +36,7 @@ export class PaymentsComponent {
   errorMessage: string = ''; // Mensaje de error
   showSummary: boolean = false; // Estado para mostrar las secciones de métodos de pago
   totalAmount: number = 5000; // Monto total de la compra
+  showInvoice: boolean = false;
 
   onInputChange() {
     const inputValue = this.name.toLowerCase();
@@ -95,5 +110,13 @@ export class PaymentsComponent {
       }
     }
     return 0; // Sin efectivo
+  }
+
+  goToInvoice(){
+    this.showInvoice = true;
+  }
+
+  goHome() {
+    this.router.navigate(['/']); // Navega a la ruta de inicio
   }
 }
