@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; // Importar OnInit
 import { FormsModule } from '@angular/forms';  
 import { CommonModule } from '@angular/common';  
 import { Router } from '@angular/router';
+import { ClienteService } from '../cliente.service';
 
 
 @Component({
@@ -11,12 +12,9 @@ import { Router } from '@angular/router';
   templateUrl: './payments.component.html',
   styleUrls: ['./payments.component.css']
 })
-export class PaymentsComponent {
+export class PaymentsComponent implements OnInit { // Implementar OnInit
 
-  constructor(private router: Router) {}
-
-
-  names: string[] = ['Tomas Guardias', 'Tom Cruz', 'Tec Johnson', 'Tobias Lane', 'Tori Vega', 'Tonya Harding'];
+  clients: string[] = []; // Cambiado de 'names' a 'clients'
 
   products: { name: string; quantity: number; price: number }[] = [
     { name: 'Piña con hierba buena', quantity: 1, price: 1300 },
@@ -25,40 +23,57 @@ export class PaymentsComponent {
     { name: 'BATIDO ESPECIAL', quantity: 1, price: 1300 },
   ];
   
-
   name: string = '';
-  sinpeName: string = ''; // Propiedad añadida
-  filteredNames: string[] = [];
+  sinpeName: string = ''; 
+  filteredClients: string[] = []; // Cambiado de 'filteredNames' a 'filteredClients'
   selectedMethod: string = '';
   paymentMethods: string[] = [];
-  amounts: { [key: string]: number } = {}; // Solo acepta número
-  efectivoRecibido: number = 0; // Campo para el efectivo recibido
-  errorMessage: string = ''; // Mensaje de error
-  showSummary: boolean = false; // Estado para mostrar las secciones de métodos de pago
-  totalAmount: number = 5000; // Monto total de la compra
+  amounts: { [key: string]: number } = {};
+  efectivoRecibido: number = 0;
+  errorMessage: string = '';
+  showSummary: boolean = false;
+  totalAmount: number = 5000;
   showInvoice: boolean = false;
+
+  constructor(private router: Router, private clienteService: ClienteService) {}
+
+  ngOnInit(): void {
+    this.getClients(); // Llamada al servicio cuando el componente se inicializa
+  }
 
   onInputChange() {
     const inputValue = this.name.toLowerCase();
     if (inputValue) {
-      this.filteredNames = this.names.filter(name => 
-        name.toLowerCase().includes(inputValue)
+      this.filteredClients = this.clients.filter(client => 
+        client.toLowerCase().includes(inputValue)
       );
     } else {
-      this.filteredNames = [];
+      this.filteredClients = [];
     }
   }
 
   selectName(suggestion: string) {
     this.name = suggestion;
-    this.filteredNames = [];
+    this.filteredClients = [];
+  }
+
+  getClients() {
+    this.clienteService.getClientes().subscribe(
+      data => {
+        console.log('Clientes obtenidos:', data);
+        this.clients = data; // Almacena los clientes en 'clients'
+      },
+      error => {
+        console.error('Error al obtener clientes:', error);
+      }
+    );
   }
 
   addPaymentMethod() {
     if (this.selectedMethod && !this.paymentMethods.includes(this.selectedMethod)) {
       this.paymentMethods.push(this.selectedMethod);
-      this.amounts[this.selectedMethod] = 0; // Inicializa el monto en 0
-      this.selectedMethod = ''; // Reinicia la selección
+      this.amounts[this.selectedMethod] = 0;
+      this.selectedMethod = '';
     }
   }
 
@@ -69,7 +84,6 @@ export class PaymentsComponent {
       return false;
     }
 
-    // Validación si hay más de un método de pago
     if (this.paymentMethods.length > 1) {
       let totalAmount = 0;
       for (let method of this.paymentMethods) {
@@ -77,9 +91,9 @@ export class PaymentsComponent {
           this.errorMessage = 'Por favor, completa todos los campos de monto.';
           return false;
         }
-        totalAmount += this.amounts[method]; // Sumar montos
+        totalAmount += this.amounts[method];
       }
-      if (totalAmount !== this.totalAmount) { // Verificar si la suma es igual al total
+      if (totalAmount !== this.totalAmount) {
         this.errorMessage = 'La suma de los montos debe ser igual al total de la compra.';
         return false;
       }
@@ -90,33 +104,32 @@ export class PaymentsComponent {
 
   proceedToSummary() {
     if (this.validateFields()) {
-      this.showSummary = true; // Cambia el estado para mostrar el resumen
+      this.showSummary = true;
     }
   }
 
   removePaymentMethod(method: string) {
     this.paymentMethods = this.paymentMethods.filter(m => m !== method);
-    delete this.amounts[method]; // Elimina el monto correspondiente
+    delete this.amounts[method];
   }
 
   calculateChange(): number {
     if (this.paymentMethods.includes('Efectivo')) {
       if (this.paymentMethods.length === 1) {
-        return this.efectivoRecibido - this.totalAmount; // Solo efectivo
+        return this.efectivoRecibido - this.totalAmount;
       } else {
-        // Si hay más de un método, se usa el monto en efectivo indicado
         const efectivoAmount = this.amounts['Efectivo'] || 0;
         return this.efectivoRecibido - efectivoAmount;
       }
     }
-    return 0; // Sin efectivo
+    return 0;
   }
 
-  goToInvoice(){
+  goToInvoice() {
     this.showInvoice = true;
   }
 
   goHome() {
-    this.router.navigate(['/']); // Navega a la ruta de inicio
+    this.router.navigate(['/']);
   }
 }

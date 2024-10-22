@@ -5,8 +5,10 @@
             <label for="nameInput" class="form-label">Nombre</label>
             <input id="nameInput" class="form-control" placeholder="Nombre" 
                 [(ngModel)]="name" (input)="onInputChange()" />
-            <ul *ngIf="filteredNames.length" class="list-group">
-                <li *ngFor="let suggestion of filteredNames" (click)="selectName(suggestion)"
+            <!-- Cambiado filteredNames a filteredClients -->
+            <ul *ngIf="filteredClients.length" class="list-group">
+                <!-- Cambiado filteredNames a filteredClients -->
+                <li *ngFor="let suggestion of filteredClients" (click)="selectName(suggestion)"
                     class="list-group-item">
                     {{ suggestion }}
                 </li>
@@ -24,6 +26,7 @@
             <button (click)="addPaymentMethod()" class="btn btn-primary mt-2">+</button>
         </div>
 
+        <!-- Sección de métodos de pago -->
         <div *ngFor="let method of paymentMethods" class="mb-3">
             <label>{{ method }}</label>
             <input *ngIf="paymentMethods.length > 1" 
@@ -40,7 +43,7 @@
     </div>
 </div>
 
-<!-- Secciones de resumen -->
+<!-- Sección de resumen -->
 <div class="container" *ngIf="showSummary && !showInvoice">
     <h1 class="title text-center">Resumen de Métodos de Pago</h1>
     <div *ngFor="let method of paymentMethods">
@@ -65,7 +68,7 @@
     <button (click)="goToInvoice()" class="btn btn-success mt-3 float-end">Proceder con el Pago</button>
 </div>
 
-<!-- Invoice HTML -->
+<!-- Sección de factura -->
 <div class="container" *ngIf="showInvoice">
     <h1 class="text-center">Factura</h1>
     <h4>Nombre: {{ name }}</h4>
